@@ -19,6 +19,7 @@ axios.interceptors.response.use(async response => {
     const {data, status, config} = error.response as AxiosResponse;
     switch (status) {
         case 400:
+            console.log(data.errors);
             if (config.method === 'get' && Object.prototype.hasOwnProperty.call(data.errors, 'id')) {
                 router.navigate('/not-found');
             }
