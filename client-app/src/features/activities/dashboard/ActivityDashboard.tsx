@@ -20,7 +20,7 @@ function ActivityDashboard() {
 
     if (activityStore.loadingInitial) {
         return(
-            <LoadingComponent/>
+            <LoadingComponent content='Loading activities...'/>
         );
     }
     return (

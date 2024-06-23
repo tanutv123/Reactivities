@@ -8,7 +8,7 @@ interface Props {
 }
 
 function ActivityListItem({activity} : Props){
-    return (<Segment.Group>
+    return (<Segment.Group key={activity.id}>
         <Segment>
             <Item.Group>
                 <Item>

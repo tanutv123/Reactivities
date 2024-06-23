@@ -19,7 +19,7 @@ function ActivityList() {
                             {group}
                         </Header>
                         {activities && activities.map(activity => (
-                            <ActivityListItem activity={activity}/>
+                            <ActivityListItem key={activity.id} activity={activity}/>
                         ))}
                     </Fragment>
                 ))}
