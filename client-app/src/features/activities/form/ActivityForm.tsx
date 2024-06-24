@@ -3,7 +3,7 @@ import { useEffect, useState} from "react";
 import {useStore} from "../../../app/stores/store.ts";
 import {observer} from "mobx-react-lite";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Activity} from "../../../app/models/activity.ts";
+import {ActivityFormValues} from "../../../app/models/activity.ts";
 import LoadingComponent from "../../../app/layout/LoadingComponent.tsx";
 import {Formik, Form} from "formik";
 import * as Yup from 'yup'
@@ -18,19 +18,11 @@ function ActivityForm() {
     const {activityStore} = useStore();
     const {createActivity,
         updateActivity,
-        loading,
         loadActivity,
         loadingInitial} = activityStore;
     const {id} = useParams();
     const [activity, setActivity] =
-        useState<Activity>({id: '',
-        description: '',
-        title: '',
-        category: '',
-        date: null,
-        venue: '',
-        city: ''}
-        );
+        useState<ActivityFormValues>(new ActivityFormValues());
     const navigate = useNavigate();
     const validationSchema = Yup.object({
         title: Yup.string().required('The activity title is required'),
@@ -43,12 +35,12 @@ function ActivityForm() {
     useEffect(() => {
         if (id) {
             loadActivity(id).then((activity) => {
-                setActivity(activity!);
+                setActivity(new ActivityFormValues(activity));
             });
         }
     }, [id, loadActivity]);
 
-    function handleFormSubmit(activity: Activity) {
+    function handleFormSubmit(activity: ActivityFormValues) {
         if (!activity.id) {
             activity.id = uuid();
             createActivity(activity).then(() => {
@@ -90,7 +82,7 @@ function ActivityForm() {
                         <MyTextInput placeholder='Venue' name='venue'/>
                         <Button
                             disabled={isSubmitting || !dirty || !isValid}
-                            loading={loading}
+                            loading={isSubmitting}
                             floated='right'
                             positive
                             type='submit'
