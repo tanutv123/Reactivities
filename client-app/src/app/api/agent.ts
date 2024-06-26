@@ -95,6 +95,7 @@ const Profiles = {
     },
     setMainPhoto: (id: string) => requests.post(`/photo/${id}/setMain`, {}),
     deletePhoto: (id: string) => requests.del(`/photo/${id}`),
+    editProfile: (profile: Partial<Profile>) => requests.put('/profiles', profile)
 }
 
 const agent = {
