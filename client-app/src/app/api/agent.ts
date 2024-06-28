@@ -12,7 +12,7 @@ const sleep = (delay : number) => {
     });
 }
 
-axios.defaults.baseURL = 'https://localhost:7295/api/';
+axios.defaults.baseURL = 'http://localhost:5000/api/';
 
 axios.interceptors.response.use(async response => {
         await sleep(1000);

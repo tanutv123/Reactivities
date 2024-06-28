@@ -4,7 +4,7 @@ import {useState} from "react";
 import ValidationError from "./ValidationError.tsx";
 
 export default function TestErrors() {
-    const baseUrl = 'https://localhost:7295/api/'
+    const baseUrl = 'http://localhost:5000/api/'
     const [errors, setErrors] = useState(null);
     function handleNotFound() {
         axios.get(baseUrl + 'buggy/not-found').catch(err => console.log(err.response));

@@ -24,6 +24,7 @@ namespace API.Extensions
                 {
                     policy.AllowAnyHeader()
                     .AllowAnyMethod()
+                    .AllowCredentials()
                     .WithOrigins("http://localhost:3000");
                 });
             });
@@ -39,6 +40,8 @@ namespace API.Extensions
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+
+            services.AddSignalR();
 
             return services;
         }
