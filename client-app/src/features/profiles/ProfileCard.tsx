@@ -2,6 +2,7 @@ import {Profile} from "../../app/models/profile.ts";
 import {observer} from "mobx-react-lite";
 import {Card, Icon, Image} from "semantic-ui-react";
 import {Link} from "react-router-dom";
+import FollowButton from "./FollowButton.tsx";
 
 interface Props {
     profile: Profile;
@@ -25,8 +26,9 @@ function ProfileCard({ profile }: Props) {
         </Card.Content>
         <Card.Content extra>
             <Icon name='user'/>
-            20 followers
+            {profile.followersCount} followers
         </Card.Content>
+        <FollowButton profile={profile} />
     </Card>
 }
 export default observer(ProfileCard);
