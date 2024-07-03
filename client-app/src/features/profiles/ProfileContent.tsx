@@ -22,7 +22,7 @@ function ProfileContent({profile} : Props) {
     return <Tab
         menu={{fluid: true, vertical: true}}
         menuPosition='right'
-        onTabChange={(e, data) => profileStore.setActiveTab(data.activeIndex)}
+        onTabChange={(_, data) => profileStore.setActiveTab(data.activeIndex)}
         panes={panes}
     />
 }
