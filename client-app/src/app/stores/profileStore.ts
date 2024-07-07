@@ -2,6 +2,7 @@ import {Photo, Profile} from "../models/profile.ts";
 import {makeAutoObservable, reaction, runInAction} from "mobx";
 import agent from "../api/agent.ts";
 import {store} from "./store.ts";
+import {UserActivity} from "../models/UserActivity.ts";
 
 export default class ProfileStore {
     profile: Profile | null = null;
@@ -12,6 +13,8 @@ export default class ProfileStore {
     followings: Profile[] = [];
     loadingFollowings = false;
     activeTab: number = 0;
+    userActivities: UserActivity[] = [];
+    loadingActivities = false;
     constructor() {
         makeAutoObservable(this);
         reaction(
@@ -25,6 +28,23 @@ export default class ProfileStore {
                 }
             }
         )
+    }
+
+    loadUserActivities = async (username: string, predicate?: string) => {
+        this.loadingActivities = true;
+        try {
+            const activities = await agent.Profiles.listActivities(username,
+                predicate!);
+            runInAction(() => {
+                this.userActivities = activities;
+                this.loadingActivities = false;
+            })
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loadingActivities = false;
+            })
+        }
     }
 
     get isCurrentUser() {

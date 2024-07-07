@@ -6,6 +6,7 @@ import {store} from "../stores/store.ts";
 import {User, UserFormValues} from "../models/user.ts";
 import {Photo, Profile} from "../models/profile.ts";
 import {PaginatedResult} from "../models/pagination.ts";
+import {UserActivity} from "../models/UserActivity.ts";
 
 const sleep = (delay : number) => {
     return new Promise((resolve) =>{
@@ -13,10 +14,10 @@ const sleep = (delay : number) => {
     });
 }
 
-axios.defaults.baseURL = 'http://localhost:5000/api/';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 axios.interceptors.response.use(async response => {
-        await sleep(1000);
+        if (import.meta.env.DEV) await sleep(1000);
         const pagination = response.headers['pagination'];
         if (pagination) {
                 response.data = new PaginatedResult(response.data, JSON.parse(pagination));
@@ -106,7 +107,9 @@ const Profiles = {
     updateProfile: (profile: Partial<Profile>) => requests.put(`/profiles`, profile),
     updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
     listFollowings: (username: string, predicate: string) => requests
-        .get<Profile[]>(`/follow/${username}?predicate=${predicate}`)
+        .get<Profile[]>(`/follow/${username}?predicate=${predicate}`),
+    listActivities: (username: string, predicate: string) =>
+        requests.get<UserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`)
 }
 
 const agent = {
