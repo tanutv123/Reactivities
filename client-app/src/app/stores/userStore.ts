@@ -7,6 +7,7 @@ import {router} from "../router/route.tsx";
 export default class UserStore {
     user: User | null = null;
     refreshTokenTimeout?: number;
+    fbLoading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -85,5 +86,23 @@ export default class UserStore {
 
     private stopRefreshTokenTimer() {
         clearTimeout(this.refreshTokenTimeout);
+    }
+
+    facebookLogin = async (accessToken: string) => {
+        try {
+            this.fbLoading = true;
+            const user = await agent.Account.fbLogin(accessToken);
+            store.commonStore.setToken(user.token);
+            runInAction(() => {
+                this.user = user;
+                this.fbLoading = false;
+            });
+            router.navigate('/activities')
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.fbLoading = false;
+            })
+        }
     }
 }
