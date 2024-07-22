@@ -8,6 +8,8 @@ import NotFound from "../../features/errors/NotFound.tsx";
 import ServerError from "../../features/errors/ServerError.tsx";
 import ProfilePage from "../../features/profiles/ProfilePage.tsx";
 import RequireAuth from "./RequireAuth.tsx";
+import RegisterSuccess from "../../features/users/RegisterSuccess.tsx";
+import ConfirmEmail from "../../features/users/ConfirmEmail.tsx";
 
 export const routes: RouteObject[] = [
     {
@@ -24,6 +26,8 @@ export const routes: RouteObject[] = [
                 ]},
             {path: 'not-found', element: <NotFound/>},
             {path: 'server-error', element: <ServerError/>},
+            {path: 'account/registerSuccess', element: <RegisterSuccess/>},
+            {path: 'account/verifyEmail', element: <ConfirmEmail/>},
             {path: '*', element: <Navigate to='not-found' replace/>},
         ]
     }

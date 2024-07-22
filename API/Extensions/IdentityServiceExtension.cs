@@ -3,6 +3,7 @@ using Domain;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using System.Text;
@@ -18,8 +19,11 @@ namespace API.Extensions
             {
                 opts.Password.RequireNonAlphanumeric = true;
                 opts.User.RequireUniqueEmail = true;
+                opts.SignIn.RequireConfirmedEmail = true;
             })
-                .AddEntityFrameworkStores<DataContext>();
+                .AddEntityFrameworkStores<DataContext>()
+                .AddSignInManager<SignInManager<AppUser>>()
+                .AddDefaultTokenProviders();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
