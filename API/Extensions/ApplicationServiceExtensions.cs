@@ -3,6 +3,8 @@ using Application.Core;
 using Application.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.EmailService;
+using Infrastructure.EmailService.Settings;
 using Infrastructure.Photos;
 using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +41,10 @@ namespace API.Extensions
             services.AddHttpContextAccessor();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            services.Configure<SendInBlue>(config.GetSection("SendInBlue"));
 
             services.AddSignalR();
 
