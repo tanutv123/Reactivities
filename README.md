@@ -35,10 +35,20 @@ Before setting up the React.js frontend, make sure you have the following instal
   ```bash
    npm install -D vite
 
-### Executing program
+### Executing the Program
 
-Run the backend project directly on Visual Studio
-OR run this command on API Project root
-```
-dotnet run
-```
+You can execute the backend project in two ways:
+
+#### Option 1: Run Directly on Visual Studio
+1. Open the backend project in **Visual Studio**.
+2. Press **F5** or click on the **Run** button to start the application.
+
+#### Option 2: Run from the Command Line
+1. Open a terminal or command prompt.
+2. Navigate to the root directory of the API project.
+3. Run the following command to start the backend:
+
+   ```bash
+   dotnet run
+4. You can navigate to **https://localhost:5000** to access the application
+
