@@ -1,8 +1,45 @@
+version: '3.8'
+name: reactivities
+
 services:
-  sql:
-    image: mcr.microsoft.com/azure-sql-edge
+  # ASP.NET Core Application
+  web:
+    image: reactivities:latest
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    ports:
+      - "8080:8080"
     environment:
-      ACCEPT_EULA: "1"
-      MSSQL_SA_PASSWORD: "Password@1"
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=Reactivities;User Id=sa;Password=Password@1;TrustServerCertificate=True;
+      - TokenKey=Yh2k7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs03Hdx
+      - Facebook__AppId=487386143777579
+      - Facebook__AppSecret=9f6fbed4713bedbefde06c2eb3abfaa3
+      - SendInBlue_ApiKey=123
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # SQL Server Database
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password@1
     ports:
       - "1433:1433"
+    networks:
+      - app-network
+    volumes:
+      - sql_data:/var/opt/mssql
+
+# Volumes for persistent SQL data
+volumes:
+  sql_data:
+
+# Define networks
+networks:
+  app-network:
+    driver: bridge

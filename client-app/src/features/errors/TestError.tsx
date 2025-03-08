@@ -4,9 +4,10 @@ import {useState} from "react";
 import ValidationError from "./ValidationError.tsx";
 
 export default function TestErrors() {
-    const baseUrl = import.meta.env.VITE_API_URL + '/';
+    const baseUrl = '/';
     const [errors, setErrors] = useState(null);
     function handleNotFound() {
+        console.log(baseUrl);
         axios.get(baseUrl + 'buggy/not-found').catch(err => console.log(err.response));
     }
 

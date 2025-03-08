@@ -83,22 +83,23 @@ namespace API.Controllers
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
-                UserName = registerDto.UserName
+                UserName = registerDto.UserName,
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
             if(!result.Succeeded) return BadRequest("Problem registering user");
 
-            var origin = Request.Headers["origin"];
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //var origin = Request.Headers["origin"];
+            //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            //token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-            var verifyUrl = $"{origin}/account/verifyEmail?token={token}&email={user.Email}";
-            var message = $"<p>Please click the below link to verify your email address:</p><p><a href='{verifyUrl}'>Click to verify email</a></p>";
+            //var verifyUrl = $"{origin}/account/verifyEmail?token={token}&email={user.Email}";
+            //var message = $"<p>Please click the below link to verify your email address:</p><p><a href='{verifyUrl}'>Click to verify email</a></p>";
 
-            await _emailService.SendAsync("autoemail62@gmail.com", user.Email, "Please verify your email", message);
+            //await _emailService.SendAsync("autoemail62@gmail.com", user.Email, "Please verify your email", message);
             return Ok("Registration success - please verify email");
         }
 

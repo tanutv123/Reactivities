@@ -23,6 +23,7 @@ function ActivityList() {
                         ))}
                     </Fragment>
                 ))}
+                <p>Scroll down to see more activities</p>
             </>
         </>
     );
