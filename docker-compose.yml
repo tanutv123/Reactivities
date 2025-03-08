@@ -12,34 +12,28 @@ services:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db;Database=Reactivities;User Id=sa;Password=Password@1;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=Reactivities;User Id=postgres;Password=admin;Include Error Detail=true
       - TokenKey=Yh2k7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs03Hdx
       - Facebook__AppId=487386143777579
       - Facebook__AppSecret=9f6fbed4713bedbefde06c2eb3abfaa3
       - SendInBlue_ApiKey=123
     depends_on:
       - db
-    networks:
-      - app-network
 
-  # SQL Server Database
+  # PostgreSQL Database
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: db
+    image: postgres
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password@1
+      - POSTGRES_DB=Reactivities
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    restart: always
     ports:
-      - "1433:1433"
-    networks:
-      - app-network
+      - 5432:5432
     volumes:
-      - sql_data:/var/opt/mssql
+      - postgres-data:/var/lib/postgresql/data
 
-# Volumes for persistent SQL data
+# Volumes for persistent PostgreSQL data
 volumes:
-  sql_data:
-
-# Define networks
-networks:
-  app-network:
-    driver: bridge
+  postgres-data:
