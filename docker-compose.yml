@@ -12,7 +12,7 @@ services:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=Reactivities;User Id=postgres;Password=admin;Include Error Detail=true
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=Reactivities;User Id=postgres;Password=admin;Include Error Detail=true;
       - TokenKey=Yh2k7QSu4l8CZg5p6X3Pna9L0Miy4D3Bvt0JVr87UcOj69Kqw5R2Nmf4FWs03Hdx
       - Facebook__AppId=487386143777579
       - Facebook__AppSecret=9f6fbed4713bedbefde06c2eb3abfaa3
