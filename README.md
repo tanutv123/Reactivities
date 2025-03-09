@@ -5,6 +5,7 @@ Reactivities.
 ## Description
 
 This application allows people to host their own events and other people will be able attend to events.
+Website: http://ec2-54-153-171-0.ap-southeast-2.compute.amazonaws.com:8080/
 
 ## Features
 
