@@ -25,6 +25,14 @@ export default class UserStore {
         router.navigate('/activities');
         store.modalStore.closeModal();
     }
+    loginAsBob = async () => {
+        const user = await agent.Account.loginAsBob();
+        store.commonStore.setToken(user.token);
+        this.startRefreshTokenTimer(user);
+        runInAction(() => this.user = user);
+        router.navigate('/activities');
+        store.modalStore.closeModal();
+    }
 
     register = async (creds: UserFormValues) => {
         await agent.Account.register(creds);

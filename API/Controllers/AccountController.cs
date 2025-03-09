@@ -63,6 +63,28 @@ namespace API.Controllers
             return Unauthorized("Invalid password");
         }
         [AllowAnonymous]
+        [HttpPost("loginAsBob")]
+        public async Task<ActionResult<UserDto>> LoginAsBob()
+        {
+            var user = await _userManager.Users.Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.Email == "bob@test.com");
+            if (user == null) return Unauthorized("Invalid email");
+
+            if (user.UserName == "bob") user.EmailConfirmed = true;
+
+            if (!user.EmailConfirmed) return Unauthorized("Your email is not confirmed");
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, "Pa$$w0rd", false);
+
+            if (result.Succeeded)
+            {
+                await SetRefreshToken(user);
+                return CreateUserObject(user);
+            }
+
+            return Unauthorized("Invalid password");
+        }
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {

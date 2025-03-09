@@ -5,9 +5,16 @@ import {useStore} from "../stores/store.ts";
 import LoginForm from "../../features/users/LoginForm.tsx";
 import RegisterForm from "../../features/users/RegisterForm.tsx";
 import FacebookLogin, {FailResponse, SuccessResponse} from "@greatsumini/react-facebook-login";
+import {useState} from "react";
 
 function HomePage() {
     const {userStore, modalStore} = useStore();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    function loginAsBob() {
+        setIsSubmitting(true);
+        userStore.loginAsBob().finally(() => setIsSubmitting(false));
+    }
 
     return <Segment inverted textAlign='center' vertical className='masthead'>
         <Container text>
@@ -27,6 +34,9 @@ function HomePage() {
                     <Header as='h2' inverted content='Welcome to Reactivities'/>
                     <Button onClick={() => modalStore.openModal(<LoginForm/>)} size='huge' inverted>
                         Login!
+                    </Button>
+                    <Button loading={isSubmitting} onClick={loginAsBob} size='huge' inverted>
+                        Login As Bob!
                     </Button>
                     <Button onClick={() => modalStore.openModal(<RegisterForm/>)} size='huge' inverted>
                         Register!
