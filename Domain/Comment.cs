@@ -1,4 +1,6 @@
-﻿namespace Domain
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Domain
 {
     public class Comment
     {
@@ -6,6 +8,6 @@
         public string Body { get; set; }
         public AppUser Author { get; set; }
         public Activity Activity { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow.AddMinutes(1);
     }
 }

@@ -5,7 +5,8 @@ import {useEffect} from "react";
 import {Link} from "react-router-dom";
 import {Formik, Form, Field, FieldProps} from "formik";
 import * as yup from 'yup'
-import {formatDistanceToNow} from "date-fns";
+import {format} from "date-fns";
+// import {formatDistanceToNow} from "date-fns";
 
 interface Props {
     activityId: string;
@@ -73,18 +74,23 @@ export default observer(function ActivityDetailedChat({activityId} : Props) {
                     )}
                 </Formik>
                 <Comment.Group>
-                    {commentStore.comments.map(comment => (
-                        <Comment key={comment.id}>
-                            <Comment.Avatar src={comment.image || '/assets/user.png'} />
-                            <Comment.Content>
-                                <Comment.Author as={Link} to={`/profiles/${comment.username}`}>{comment.displayName}</Comment.Author>
-                                <Comment.Metadata>
-                                    <div>{formatDistanceToNow(comment.createdAt)} ago</div>
-                                </Comment.Metadata>
-                                <Comment.Text style={{ whiteSpace: 'pre-wrap' }}>{comment.body}</Comment.Text>
-                            </Comment.Content>
-                        </Comment>
-                    ))}
+                    {commentStore.comments.map(comment => {
+                        console.log(comment);
+                        return (
+                            <Comment key={comment.id}>
+                                <Comment.Avatar src={comment.image || '/assets/user.png'} />
+                                <Comment.Content>
+                                    <Comment.Author as={Link} to={`/profiles/${comment.username}`}>{comment.displayName}</Comment.Author>
+                                    <Comment.Metadata>
+                                        <div>
+                                            {format(comment.createdAt!, 'dd MMM yyyy hh:mm aa')}
+                                        </div>
+                                    </Comment.Metadata>
+                                    <Comment.Text style={{ whiteSpace: 'pre-wrap' }}>{comment.body}</Comment.Text>
+                                </Comment.Content>
+                            </Comment>
+                        )
+                    })}
 
                 </Comment.Group>
             </Segment>
