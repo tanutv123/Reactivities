@@ -21,7 +21,7 @@ namespace Infrastructure.EmailService
 			Configuration.Default.ApiKey["api-key"] = _sendInBlue.Value.ApiKey;
 			string message;
 			var apiInstance = new TransactionalEmailsApi();
-			string SenderName = "MomMomsMilk";
+			string SenderName = "Reactivities";
 			string SenderEmail = from;
 			SendSmtpEmailSender Email = new SendSmtpEmailSender(SenderName, SenderEmail);
 			string ToEmail = to;

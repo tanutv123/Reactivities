@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -113,15 +114,8 @@ namespace API.Controllers
 
             if(!result.Succeeded) return BadRequest("Problem registering user");
 
-            //var origin = Request.Headers["origin"];
-            //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-            //token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-
-            //var verifyUrl = $"{origin}/account/verifyEmail?token={token}&email={user.Email}";
-            //var message = $"<p>Please click the below link to verify your email address:</p><p><a href='{verifyUrl}'>Click to verify email</a></p>";
-
-            //await _emailService.SendAsync("autoemail62@gmail.com", user.Email, "Please verify your email", message);
+            var origin = Request.Headers["origin"];
+            await SendEmailConfirmationAsync(user, user.Email);
             return Ok("Registration success - please verify email");
         }
 
@@ -148,15 +142,21 @@ namespace API.Controllers
             if(user == null) return Unauthorized();
 
             var origin = Request.Headers["origin"];
+
+            await SendEmailConfirmationAsync(user, user.Email);
+            
+            return Ok("Email verification link resent");
+        }
+        private async Task SendEmailConfirmationAsync(AppUser user, string email)
+        {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-
-            var verifyUrl = $"{origin}/account/verifyEmail?token={token}&email={user.Email}";
+            var encodedToken = WebUtility.UrlEncode(token);
+            var verifyUrl = $"http://localhost:8080/account/verifyEmail?token={encodedToken}&email={user.Email}";
             var message = $"<p>Please click the below link to verify your email address:</p><p><a href='{verifyUrl}'>Click to verify email</a></p>";
 
             await _emailService.SendAsync("autoemail62@gmail.com", user.Email, "Please verify your email", message);
-            return Ok("Email verification link resent");
         }
 
         [Authorize]
