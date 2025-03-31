@@ -153,7 +153,7 @@ namespace API.Controllers
 
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
             var encodedToken = WebUtility.UrlEncode(token);
-            var verifyUrl = $"http://localhost:8080/account/verifyEmail?token={encodedToken}&email={user.Email}";
+            var verifyUrl = $"http://http://ec2-54-153-171-0.ap-southeast-2.compute.amazonaws.com:8080/account/verifyEmail?token={encodedToken}&email={user.Email}";
             var message = $"<p>Please click the below link to verify your email address:</p><p><a href='{verifyUrl}'>Click to verify email</a></p>";
 
             await _emailService.SendAsync("autoemail62@gmail.com", user.Email, "Please verify your email", message);
